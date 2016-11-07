@@ -22,11 +22,16 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.joooonho.SelectableRoundedImageView;
+import com.squareup.picasso.Picasso;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import sa.gov.mohe.mtokhais.testapp.MazinDBholder.DAInterfacedb;
 import sa.gov.mohe.mtokhais.testapp.MazinDBholder.GiftItem;
@@ -56,6 +61,8 @@ public class AddingGiftActivity extends ActionBarActivity implements DatePickerD
     CircularProgressButton circularButton1;
     //Db
     DAInterfacedb Db ;
+
+    Uri selectedImageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +78,9 @@ public class AddingGiftActivity extends ActionBarActivity implements DatePickerD
                 if (circularButton1.getProgress() == 0) {
                     circularButton1.setProgress(50);
                     AddingGift();
+
                 } else if (circularButton1.getProgress() == 100) {
+
                     circularButton1.setProgress(0);
                 } else {
                     circularButton1.setProgress(100);
@@ -138,18 +147,22 @@ public class AddingGiftActivity extends ActionBarActivity implements DatePickerD
         }
     }
 
-private void InitView()
-{
-    edTxData = (TextView)findViewById(R.id.et_Date);
-    edTxReminder = (TextView)findViewById(R.id.etReminder);
-    edTxName = (EditText)findViewById(R.id.etName);;
-    edTxDescraption = (EditText)findViewById(R.id.etDescraption);;
-    edTxOccastion =(EditText)findViewById(R.id.etOccasion);;
+    private void InitView()
+    {
 
+        edTxReminder = (TextView)findViewById(R.id.etReminder);
+        edTxName = (EditText)findViewById(R.id.etName);;
+        edTxDescraption = (EditText)findViewById(R.id.etDescraption);;
+        edTxOccastion =(EditText)findViewById(R.id.etOccasion);;
 
-    circularButton1 = (CircularProgressButton) findViewById(R.id.btnWithText);
-    selectedImagePreview = (SelectableRoundedImageView) findViewById(R.id.image3);
-}
+        edTxData = (TextView)findViewById(R.id.et_Date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        String currentDateandTime = sdf.format(new Date());
+        edTxData.setText(currentDateandTime);
+        circularButton1 = (CircularProgressButton) findViewById(R.id.btnWithText);
+        selectedImagePreview = (SelectableRoundedImageView) findViewById(R.id.image3);
+    }
+
     private void selectImage() {
 
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
@@ -163,9 +176,22 @@ private void InitView()
 
                 {
 
+                     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                    String currentDateandTime = sdf.format(new Date());
+
+                    File file = new File(android.os.Environment.getExternalStorageDirectory(), currentDateandTime+".jpg");
+                    int i =0 ;
+                    while(file.exists())
+                    {
+                        file = new File(android.os.Environment.getExternalStorageDirectory(), currentDateandTime+"("+i+".jpg");
+                        i++;
+                    }
+
+                    //File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
                     Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+
+
                     startActivityForResult(intent, SELECT_PICTURE_CAMERA);
 
                 } else if (options[item].equals("Choose from Gallery")) {
@@ -187,7 +213,7 @@ private void InitView()
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE_GALARY) {
 
-                Uri selectedImageUri = data.getData();
+                 selectedImageUri = data.getData();
 
                 try {
                     selectedImagePreview.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -201,18 +227,47 @@ private void InitView()
             }
             else if (requestCode == SELECT_PICTURE_CAMERA) {
 
-                File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+//                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+//                String currentDateandTime = sdf.format(new Date());
+//                File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+//
+//
+//                File file = new File(android.os.Environment.getExternalStorageDirectory(), currentDateandTime+".jpg");
+//                int i =0 ;
+//                while(file.exists())
+//                {
+//                    file = new File(android.os.Environment.getExternalStorageDirectory(), currentDateandTime+"("+i+".jpg");
+//                    i++;
+//                }
+
+
+               // Bundle extras = data.getExtras();
+                String file;
+
+                Bundle MBuddle = data.getExtras();
+                file = MBuddle .getString(MediaStore.EXTRA_OUTPUT);
+data.getExtras().get("uri");
+                   // file = extras.getString(MediaStore.EXTRA_OUTPUT);
+                    // and get whatever type user account id is
+
+//                Intent intent = getIntent();
+//
+//                String file = intent.getStringExtra(MediaStore.EXTRA_OUTPUT);
+                Uri myUri = data.getData();// data.getExtras().get("uri");//Uri.parse(file);
+                // String name = intent.getStringExtra("name")
                 //Bitmap input1 = BitmapFactory.decodeFile(f.getName());
                 //Bitmap bitmap = Bitmap.createBitmap(Uri.fromFile(f),100,100,1,1);
                 //Bitmap bitmap = BitmapFactory.decodeFile(Uri.fromFile(f));
                 //Bitmap bitmap = Bitmap.createScaledBitmap(input1, 350, 240, true);
 
                // Uri imageUri = data.getData();
+                selectedImageUri = myUri;// Uri.parse(myUri.getPath());
+
                 Bitmap bitmap = null;
                 ExifInterface ei = null;
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(f));
-                    ei = new ExifInterface(f.getPath());
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),  myUri);
+                    ei = new ExifInterface(myUri.toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -234,7 +289,10 @@ private void InitView()
                 selectedImagePreview.setScaleType(ImageView.ScaleType.FIT_XY);
 //                selectedImagePreview.getAdjustViewBounds(true);
                // selectedImagePreview.setImageURI(Uri.fromFile(f));
-                selectedImagePreview.setImageBitmap(bitmap);
+                Picasso.with(this).load(selectedImageUri)
+
+                        .into(selectedImagePreview);
+                //selectedImagePreview.setImageBitmap(bitmap);
             }
 
 
@@ -301,14 +359,33 @@ private void InitView()
         GiftItem Gift = new GiftItem();
         Gift.setTitle(edTxName.getText().toString());
         Gift.setDescription(edTxDescraption.getText().toString());
-        Gift.setDatetime(System.currentTimeMillis());
-        Gift.setPath("pathTest");
+        Gift.setDate(edTxData.getText().toString());
+
+        if (edTxData.getText().toString()!= null) {
+
+            DateFormat parser = new SimpleDateFormat("yyyy/MM/dd");
+            try {
+                Date date = parser.parse(edTxData.getText().toString());
+               Gift.setDatetime(date.getTime() / 1000);
+
+            } catch (ParseException e) {
+                Log.e("Error parsing", "Error parsing date: "
+                        + edTxData.getText().toString());
+            }
+        }
+
+        if (selectedImageUri!=null) {
+            Gift.setPath(selectedImageUri.toString());
+            Log.d("image Addign Path ", selectedImageUri.toString());
+        }
         Gift.setOccasion(edTxOccastion.getText().toString());
         Gift.setReminder(edTxReminder.getText().toString());
         //images.add(image);
         Db.addGiftItem(Gift);
         Db.close();
         circularButton1.setProgress(100);
+        //android.os.SystemClock.sleep(7000);
+
 //        .addImage(image);
     }
 }

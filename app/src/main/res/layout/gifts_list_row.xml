@@ -41,6 +41,14 @@
             android:textColor="@color/primary_light"/>
     </RelativeLayout>
 
+    <View style="@style/SepPersonalInfo"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+
+        android:layout_height="match_parent"
+        android:layout_marginLeft="49dp"
+        android:id="@+id/TimeLineView"
+        android:layout_below="@+id/include" />
     <View
         android:id="@+id/view1"
         android:layout_width="25dp"
@@ -64,7 +72,7 @@
             <!-- Title Of Song-->
         <TextView
         android:id="@+id/title"
-        android:layout_width="180dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
 
         android:text="Rihanna Love the way lie"
@@ -80,7 +88,7 @@
     <!-- Artist Name -->
     <TextView
         android:id="@+id/tvdescreption"
-        android:layout_width="150dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:textColor="@color/secondary_text"
@@ -92,8 +100,7 @@
         android:maxLines="1"
         android:lines="1"
         android:singleLine="true"
-        android:layout_alignRight="@+id/title"
-        android:layout_alignEnd="@+id/title" />
+         />
 
     <!-- Rightend Duration
     <TextView
@@ -124,7 +131,8 @@
             android:layout_marginLeft="10dp"
             android:lines="1"
             android:textStyle="bold"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:gravity="right"/>
 
      <!--   <ImageView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -142,8 +150,8 @@
 
             <ImageView
                 android:id="@+id/list_image"
-                android:layout_width="25dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/gift"/>
 
         </LinearLayout>

@@ -1,19 +1,22 @@
 package sa.gov.mohe.mtokhais.testapp.MazinDBholder;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
  * Created by mazoo_000 on 04/02/2016.
  */
-public class GiftItem {
+public class GiftItem implements Serializable {
+
     private String title;
     private String description;
     private String path;
     private String occasion;
     private String reminder;
     private long datetimeLong;
-    private SimpleDateFormat df = new SimpleDateFormat("MMMM d, yy  h:mm");
+    private String Date;
+    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     public GiftItem(String title, String description, String path,
                    long datetimeLong ,String occasion, String reminder) {
@@ -127,5 +130,13 @@ public class GiftItem {
 
     public void setReminder(String reminder) {
         this.reminder = reminder;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
     }
 }

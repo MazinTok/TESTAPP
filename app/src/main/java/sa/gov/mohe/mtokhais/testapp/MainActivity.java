@@ -19,9 +19,9 @@ import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import sa.gov.mohe.mtokhais.testapp.MazinDBholder.DAInterfacedb;
@@ -48,41 +48,21 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.libtest);
+// Create global configuration and initialize ImageLoader with this config
+//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+//       .build();
+//        ImageLoader.getInstance().init(config);
+
+
+        // Create global configuration and initialize ImageLoader with this config
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+        .build();
+        ImageLoader.getInstance().init(config);
 
         InitToolBar();
         InitView();
-
+        RefreachView();
         //mAppList = getPackageManager().getInstalledApplications(0);
-
-         Db = new DAInterfacedb(this);
-
-        GiftList = Db.getGiftItem();
-        List<String> NewsResList  = new  ArrayList();
-        HashMap<String, String> songsList = new HashMap<String, String>();
-
-
-        // looping through all song nodes &lt;song&gt;
-        for (int i = 0; i < 15; i++) {
-            // creating new HashMap
-            HashMap<String, String> map = new HashMap<String, String>();
-
-            // adding each child node to HashMap key =&gt; value
-            map.put("KEY_ID", "d");
-            map.put("KEY_TITLE", "D");
-            map.put("KEY_ARTIST", "s");
-            map.put("KEY_DURATION", "a");
-            map.put("KEY_THUMB_URL","f");
-
-            // adding HashList to ArrayList
-           // songsList.add(map);
-            NewsResList.add("s");
-        }
-
-
-
-        // Getting adapter by passing xml data ArrayList
-        LazyAdapter adapter=new LazyAdapter(this, GiftList);
-        list.setAdapter(adapter);
 
 
 
@@ -92,6 +72,11 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView parent, View view,
                                     int position, long id) {
+
+                GiftItem gift =  GiftList.get(position);
+                Intent i = new Intent(MainActivity.this, ViewGiftActivity.class);
+                i.putExtra("sampleObject", gift);
+                startActivity(i);
 
             }
         });
@@ -164,7 +149,41 @@ public class MainActivity extends ActionBarActivity {
         });
         */
     }
+private void RefreachView()
+{
+    Db = new DAInterfacedb(this);
 
+    GiftList = Db.getGiftItem();
+//        List<String> NewsResList  = new  ArrayList();
+//        HashMap<String, String> songsList = new HashMap<String, String>();
+//
+//
+//        // looping through all song nodes &lt;song&gt;
+//        for (int i = 0; i < 15; i++) {
+//            // creating new HashMap
+//            HashMap<String, String> map = new HashMap<String, String>();
+//
+//            // adding each child node to HashMap key =&gt; value
+//            map.put("KEY_ID", "d");
+//            map.put("KEY_TITLE", "D");
+//            map.put("KEY_ARTIST", "s");
+//            map.put("KEY_DURATION", "a");
+//            map.put("KEY_THUMB_URL","f");
+//
+//            // adding HashList to ArrayList
+//           // songsList.add(map);
+//            NewsResList.add("s");
+//        }
+
+
+
+    // Getting adapter by passing xml data ArrayList
+    LazyAdapter adapter=new LazyAdapter(this, GiftList);
+    list.setAdapter(adapter);
+
+
+
+}
     private void InitToolBar() {
         toolbar = (Toolbar) findViewById(R.id.include);
         if (toolbar != null) {
@@ -204,7 +223,7 @@ public class MainActivity extends ActionBarActivity {
     public void onResume(){
         super.onResume();
         // put your code here...
-        GiftList = Db.getGiftItem();
+        RefreachView();
 
     }
     private int dp2px(int dp) {

@@ -62,7 +62,7 @@
                         style="@style/TextViewPersonalInfo"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:editable="true"
+                        android:focusable="false"
                         android:inputType="text" />
 
                     <View style="@style/SepPersonalInfo" />
@@ -109,7 +109,8 @@
                         android:inputType="text"
                         android:editable="true"
                         android:clickable="true"
-                        android:enabled="true" />
+                        android:enabled="true"
+                        android:focusable="false"/>
 
                     <View style="@style/SepPersonalInfo" />
 
@@ -132,7 +133,8 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:inputType="text"
-                        android:editable="true" />
+                        android:editable="true"
+                        android:focusable="false"/>
 
                     <View style="@style/SepPersonalInfo" />
 

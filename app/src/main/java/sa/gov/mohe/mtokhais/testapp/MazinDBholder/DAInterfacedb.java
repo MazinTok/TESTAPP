@@ -39,7 +39,8 @@ public class DAInterfacedb {
         cv.put(DBhelper.COLUMN_PATH, Gift.getPath());
         cv.put(DBhelper.COLUMN_TITLE, Gift.getTitle());
         cv.put(DBhelper.COLUMN_DESCRIPTION, Gift.getDescription());
-        cv.put(DBhelper.COLUMN_DATETIME, System.currentTimeMillis());
+        cv.put(DBhelper.COLUMN_DATETIME,Gift.getDate());
+        cv.put(DBhelper.COLUMN_DATETIME_LONG,Gift.getDatetimeLong());
 
         cv.put(DBhelper.COLUMN_OCCASTION, Gift.getOccasion());
         cv.put(DBhelper.COLUMN_REMINDER, Gift.getReminder());
@@ -67,7 +68,7 @@ public class DAInterfacedb {
         List<GiftItem> MyGiftItems = new ArrayList<>();
         Cursor cursor =
                 database.query(DBhelper.TABLE_NAME, null, null, null, null,
-                        null, DBhelper.COLUMN_DATETIME + " DESC");
+                        null, DBhelper.COLUMN_DATETIME_LONG+" DESC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             GiftItem MyGiftItem = cursorToMyGiftItem(cursor);
@@ -91,6 +92,8 @@ public class DAInterfacedb {
         Gift.setTitle(
                 cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_TITLE)));
         Gift.setDatetime(cursor.getLong(
+                cursor.getColumnIndex(DBhelper.COLUMN_DATETIME_LONG)));
+        Gift.setDate(cursor.getString(
                 cursor.getColumnIndex(DBhelper.COLUMN_DATETIME)));
         Gift.setDescription(cursor.getString(
                 cursor.getColumnIndex(DBhelper.COLUMN_DESCRIPTION)));

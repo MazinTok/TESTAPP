@@ -29,11 +29,6 @@
         android:layout_below="@+id/include"
         android:layout_alignBottom="@+id/TimeLineView" />
 
-    <com.baoyz.swipemenulistview.SwipeMenuListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/list" />
     <com.getbase.floatingactionbutton.AddFloatingActionButton
         android:id="@+id/normal_plus"
         android:layout_width="wrap_content"
