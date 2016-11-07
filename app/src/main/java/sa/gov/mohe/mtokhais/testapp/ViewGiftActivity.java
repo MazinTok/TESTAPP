@@ -37,6 +37,7 @@ public class ViewGiftActivity extends ActionBarActivity {
     EditText edTxOccastion;
 
     SelectableRoundedImageView selectedImagePreview;
+
     DatePickerDialog dpd;
     Toolbar toolbar;
     CircularProgressButton circularButton1;
