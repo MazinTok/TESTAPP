@@ -9,6 +9,6 @@ tools:context="sa.gov.mohe.mtokhais.testapp.ViewGiftActivity">
         android:id="@+id/action_user"
         android:orderInCategory="300"
         android:title="User"
-        android:icon="@drawable/edit_icon"
+        android:icon="@drawable/arrow"
         app:showAsAction="ifRoom"></item>
 </menu>

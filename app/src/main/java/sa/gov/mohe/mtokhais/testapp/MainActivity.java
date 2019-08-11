@@ -194,7 +194,7 @@ private void RefreachView()
     private void InitView()
     {
          PlusBtn= (AddFloatingActionButton) findViewById(R.id.normal_plus);
-        mListView = (SwipeMenuListView) findViewById(R.id.listView);
+//        mListView = (SwipeMenuListView) findViewById(R.id.listView);
         list=(ListView)findViewById(R.id.list);
 
     }
